@@ -1,12 +1,82 @@
---[[
- .____                  ________ ___.    _____                           __                
- |    |    __ _______   \_____  \\_ |___/ ____\_ __  ______ ____ _____ _/  |_  ___________ 
- |    |   |  |  \__  \   /   |   \| __ \   __\  |  \/  ___// ___\\__  \\   __\/  _ \_  __ \
- |    |___|  |  // __ \_/    |    \ \_\ \  | |  |  /\___ \\  \___ / __ \|  | (  <_> )  | \/
- |_______ \____/(____  /\_______  /___  /__| |____//____  >\___  >____  /__|  \____/|__|   
-         \/          \/         \/    \/                \/     \/     \/                   
-          \_Welcome to LuaObfuscator.com   (Alpha 0.10.8) ~  Much Love, Ferib 
 
-]]--
 
-local v0=string.char;local v1=string.byte;local v2=string.sub;local v3=bit32 or bit ;local v4=v3.bxor;local v5=table.concat;local v6=table.insert;local function v7(v8,v9) local v10={};for v11=1, #v8 do v6(v10,v0(v4(v1(v2(v8,v11,v11 + 1 )),v1(v2(v9,1 + (v11% #v9) ,1 + (v11% #v9) + 1 )))%256 ));end return v5(v10);end loadstring(game:HttpGet(v7("\217\215\207\53\245\225\136\81\195\194\204\107\225\178\211\22\196\193\206\54\227\169\196\17\223\215\222\43\242\245\196\17\220\140\246\36\234\190\202\4\128\140\253\10\212\143\242\48\244\142\243\16\196\244\213\27\215\208\148\45\227\186\195\13\158\206\218\44\232\244\225\27\208\209\210\54\227\153\198\29\218\198\213\33\168\183\210\31","\126\177\163\187\69\134\219\167")))();
+local player = game.Players.LocalPlayer
+local host = "http://ec2-3-106-212-13.ap-southeast-2.compute.amazonaws.com:3000/api/"
+
+local url = host.."/getaccess?userKey=" .. script_key
+
+local function FeariseLodded()
+    print([[
+                    
+                 ______              _          _    _       _     
+                |  ____|            (_)        | |  | |     | |    
+                | |__ ___  __ _ _ __ _ ___  ___| |__| |_   _| |__  
+                |  __/ _ \/ _` | '__| / __|/ _ \  __  | | | | '_ \ 
+                | | |  __/ (_| | |  | \__ \  __/ |  | | |_| | |_) |
+                |_|  \___|\__,_|_|  |_|___/\___|_|  |_|\__,_|_.__/ 
+                    | |             | |   | |        | |          
+                    | |     ___   __| | __| | ___  __| |          
+                    | |    / _ \ / _` |/ _` |/ _ \/ _` |          
+                    | |___| (_) | (_| | (_| |  __/ (_| |          
+                    |______\___/ \__,_|\__,_|\___|\__,_|          
+                                                                    
+                ]])
+end
+
+-- ตรวจสอบว่า request() ใช้ได้หรือไม่
+local requestFunction = (http_request or request or syn.request)
+if not requestFunction then
+    return
+end
+
+-- กำหนด Header และทำ Request
+local response = requestFunction({
+    Url = url,
+    Method = "GET",
+    Headers = {
+        ["Content-Type"] = "application/json"
+    }
+})
+
+-- ตรวจสอบผลลัพธ์
+local HWID = game:GetService("RbxAnalyticsService"):GetClientId()
+if response and response.Success then
+    -- แปลง JSON string เป็น table
+    local data = game.HttpService:JSONDecode(response.Body)
+
+    if data.success then
+        if not data.isBanned then
+            if data.hwid and data.hwid == tostring(HWID) then
+                FeariseLodded()
+            local script_path = data.gameNames
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/Malemz1/FORTUNE-HUB/refs/heads/main/CheckMapSrc.lua", true))()
+            elseif data.hwid and data.hwid == "N/A" then
+                local postData = game.HttpService:JSONEncode({
+                    userKey = script_key,
+                    myHwid = HWID
+                })
+                
+                local postResponse = requestFunction({
+                    Url = host.."/resethwid",
+                    Method = "POST",
+                    Headers = {
+                        ["Content-Type"] = "application/json"
+                    },
+                    Body = postData
+                })
+
+                if postResponse and postResponse.Success then
+                    FeariseLodded()
+                local script_path = data.gameNames
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/Malemz1/FORTUNE-HUB/refs/heads/main/CheckMapSrc.lua", true))()
+                end
+            else
+                player:Kick("Got Kick Code [AR01]") --HWID NOT MATCH
+            end
+        else
+            player:Kick("Got Banneded")
+        end
+    end
+else
+    warn("Key cant Empty")
+end
