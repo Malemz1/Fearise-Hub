@@ -48,7 +48,7 @@ if response and response.Success then
         if not data.isBanned then
             if data.hwid and data.hwid == tostring(HWID) then
                 FeariseLodded()
-            local script_path = data.gameNames
+                script_path = data.gameNames
                 loadstring(game:HttpGet("https://raw.githubusercontent.com/Malemz1/FORTUNE-HUB/refs/heads/main/CheckMapSrc.lua", true))()
             elseif data.hwid and data.hwid == "N/A" then
                 local postData = game.HttpService:JSONEncode({
@@ -67,7 +67,7 @@ if response and response.Success then
 
                 if postResponse and postResponse.Success then
                     FeariseLodded()
-                local script_path = data.gameNames
+                    script_path = data.gameNames
                     loadstring(game:HttpGet("https://raw.githubusercontent.com/Malemz1/FORTUNE-HUB/refs/heads/main/CheckMapSrc.lua", true))()
                 end
             else
