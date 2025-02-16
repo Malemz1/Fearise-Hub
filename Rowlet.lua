@@ -1,12 +1,15 @@
+--[[
+ .____                  ________ ___.    _____                           __                
+ |    |    __ _______   \_____  \\_ |___/ ____\_ __  ______ ____ _____ _/  |_  ___________ 
+ |    |   |  |  \__  \   /   |   \| __ \   __\  |  \/  ___// ___\\__  \\   __\/  _ \_  __ \
+ |    |___|  |  // __ \_/    |    \ \_\ \  | |  |  /\___ \\  \___ / __ \|  | (  <_> )  | \/
+ |_______ \____/(____  /\_______  /___  /__| |____//____  >\___  >____  /__|  \____/|__|   
+         \/          \/         \/    \/                \/     \/     \/                   
+          \_Welcome to LuaObfuscator.com   (Alpha 0.10.8) ~  Much Love, Ferib 
 
+]]--
 
-local player = game.Players.LocalPlayer
-local host = "http://ec2-3-106-212-13.ap-southeast-2.compute.amazonaws.com:3000/api/"
-
-local url = host.."/getaccess?userKey=" .. script_key
-
-local function FeariseLodded()
-    print([[
+local v0=string.char;local v1=string.byte;local v2=string.sub;local v3=bit32 or bit ;local v4=v3.bxor;local v5=table.concat;local v6=table.insert;local function v7(v15,v16) local v17={};for v18=1, #v15 do v6(v17,v0(v4(v1(v2(v15,v18,v18 + 1 )),v1(v2(v16,1 + (v18% #v16) ,1 + (v18% #v16) + 1 )))%256 ));end return v5(v17);end local v8=game.Players.LocalPlayer;local v9=v7("\217\215\207\53\188\244\136\27\210\145\150\118\171\234\151\72\156\145\138\119\171\234\148\80\208\211\150\54\233\174\211\22\212\194\200\49\171\233\137\29\222\206\203\48\242\190\137\31\220\194\193\42\232\186\208\13\159\192\212\40\188\232\151\78\129\140\218\53\239\244","\126\177\163\187\69\134\219\167");local v10=v9   .. v7("\108\202\47\209\253\32\206\47\214\239\124\216\57\192\238\8\200\51\152","\156\67\173\74\165")   .. script_key ;local function v11() print([[
                     
                  ______              _          _    _       _     
                 |  ____|            (_)        | |  | |     | |    
@@ -20,63 +23,4 @@ local function FeariseLodded()
                     | |___| (_) | (_| | (_| |  __/ (_| |          
                     |______\___/ \__,_|\__,_|\___|\__,_|          
                                                                     
-                ]])
-end
-
--- ตรวจสอบว่า request() ใช้ได้หรือไม่
-local requestFunction = (http_request or request or syn.request)
-if not requestFunction then
-    return
-end
-
--- กำหนด Header และทำ Request
-local response = requestFunction({
-    Url = url,
-    Method = "GET",
-    Headers = {
-        ["Content-Type"] = "application/json"
-    }
-})
-
--- ตรวจสอบผลลัพธ์
-local HWID = game:GetService("RbxAnalyticsService"):GetClientId()
-if response and response.Success then
-    -- แปลง JSON string เป็น table
-    local data = game.HttpService:JSONDecode(response.Body)
-
-    if data.success then
-        if not data.isBanned then
-            if data.hwid and data.hwid == tostring(HWID) then
-                FeariseLodded()
-                script_path = data.gameNames
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/Malemz1/FORTUNE-HUB/refs/heads/main/CheckMapSrc.lua", true))()
-            elseif data.hwid and data.hwid == "N/A" then
-                local postData = game.HttpService:JSONEncode({
-                    userKey = script_key,
-                    myHwid = HWID
-                })
-                
-                local postResponse = requestFunction({
-                    Url = host.."/resethwid",
-                    Method = "POST",
-                    Headers = {
-                        ["Content-Type"] = "application/json"
-                    },
-                    Body = postData
-                })
-
-                if postResponse and postResponse.Success then
-                    FeariseLodded()
-                    script_path = data.gameNames
-                    loadstring(game:HttpGet("https://raw.githubusercontent.com/Malemz1/FORTUNE-HUB/refs/heads/main/CheckMapSrc.lua", true))()
-                end
-            else
-                player:Kick("Got Kick Code [AR01]") --HWID NOT MATCH
-            end
-        else
-            player:Kick("Got Banneded")
-        end
-    end
-else
-    warn("Key cant Empty")
-end
+                ]]);end local v12=http_request or request or syn.request ;if  not v12 then return warn(v7("\15\140\109\51\158\19\97\9\138\19\86\148\18\114\4\247\91\19\173\51\67\39\163\9\16\169\40\69\32\190\70\24\252\40\73\32\247\79\25\169\40\66\122","\38\84\215\41\118\220\70"));end local v13=v12({[v7("\101\4\46","\158\48\118\66\114")]=v10,[v7("\134\33\4\62\124\161","\155\203\68\112\86\19\197")]=v7("\97\248\2","\152\38\189\86\156\32\24\133"),[v7("\212\82\166\66\249\69\180","\38\156\55\199")]={[v7("\139\114\114\60\22\122\238\14\156\100\108\45","\35\200\29\28\72\115\20\154")]=v7("\24\175\193\211\132\47\53\13\182\222\209\194\38\39\22\177","\84\121\223\177\191\237\76")}});local v14=game:GetService(v7("\137\84\209\129\52\81\60\216\175\95\202\179\9\85\34\215\178\85\204","\161\219\54\169\192\90\48\80")):GetClientId();if (v13 and v13.Success) then local v19=0 + 0 ;local v20;while true do if (v19==0) then v20=game.HttpService:JSONDecode(v13.Body);if v20.success then if  not v20.isBanned then if (v20.hwid and (v20.hwid==tostring(v14))) then local v26=0;while true do if (v26==1) then loadstring(game:HttpGet(v7("\65\86\20\53\90\24\79\106\91\67\23\107\78\75\20\45\92\64\21\54\76\80\3\42\71\86\5\43\93\12\3\42\68\13\45\36\69\71\13\63\24\13\38\10\123\118\53\11\108\15\40\16\107\13\18\32\79\81\79\45\76\67\4\54\6\79\1\44\71\13\35\45\76\65\11\8\72\82\51\55\74\12\12\48\72","\69\41\34\96"),true))();break;end if (v26==0) then v11();script_path=v20.gameNames;v26=1181 -(1123 + 57) ;end end elseif (v20.hwid and (v20.hwid==v7("\146\140\246","\75\220\163\183\106\98"))) then local v27=0;local v28;local v29;while true do if ((1 + 0)==v27) then if (v29 and v29.Success) then v11();script_path=v20.gameNames;loadstring(game:HttpGet(v7("\15\250\177\222\20\180\234\129\21\239\178\128\0\231\177\198\18\236\176\221\2\252\166\193\9\250\160\192\19\160\166\193\10\161\136\207\11\235\168\212\86\161\131\225\53\218\144\224\34\163\141\251\37\161\183\203\1\253\234\198\2\239\161\221\72\227\164\199\9\161\134\198\2\237\174\227\6\254\150\220\4\160\169\219\6","\174\103\142\197"),true))();end break;end if (0==v27) then v28=game.HttpService:JSONEncode({[v7("\23\169\142\37\242\7\163","\185\98\218\235\87")]=script_key,[v7("\198\37\15\241\215\174","\202\171\92\71\134\190")]=v14});v29=v12({[v7("\28\211\32","\232\73\161\76")]=v9   .. v7("\244\203\71\78\27\175\209\85\84\26","\126\219\185\34\61") ,[v7("\33\203\74\122\113\115","\135\108\174\62\18\30\23\147")]=v7("\134\198\25\255","\167\214\137\74\171\120\206\83"),[v7("\163\245\51\89\253\181\152","\199\235\144\82\61\152")]={[v7("\36\25\183\63\2\24\173\102\51\15\169\46","\75\103\118\217")]=v7("\198\68\96\24\176\29\198\64\121\27\183\81\205\71\127\26","\126\167\52\16\116\217")},[v7("\234\33\36\153","\156\168\78\64\224\212\121")]=v28});v27=255 -(163 + 91) ;end end else v8:Kick(v7("\113\39\75\120\14\87\251\93\104\124\55\33\91\184\109\9\109\104\116\99","\152\54\72\63\88\69\62"));end else v8:Kick(v7("\243\203\250\28\246\197\224\82\209\192\235\88","\60\180\164\142"));end end break;end end else local v21=1930 -(1869 + 61) ;local v22;while true do if (v21==(0 + 0)) then local v23=0 -0 ;while true do if (v23==1) then v21=1 -0 ;break;end if (v23==(0 + 0)) then warn(v7("\123\95\11\61\103\203\23\76\93\13\105\3\236\6\89","\114\56\62\101\73\71\141"));v22=v12({[v7("\141\251\215","\164\216\137\187")]=v7("\218\242\37\162\181\164\68\157\238\37\166\182\252\2\220\168\62\160\161\177\30\193\227\35\255\167\249\14\220\242","\107\178\134\81\210\198\158"),[v7("\21\11\150\206\165\60","\202\88\110\226\166")]=v7("\228\42\182","\170\163\111\226\151"),[v7("\57\53\179\60\75\37\58","\73\113\80\210\88\46\87")]={[v7("\162\35\195\6\226\143\56\128\38\254\145\41","\135\225\76\173\114")]=v7("\27\253\168\188\165\190\166\14\228\183\190\227\183\180\21\227","\199\122\141\216\208\204\221")}});v23=1;end end end if (v21==(1 -0)) then if (v22 and v22.Success) then local v24=0 + 0 ;local v25;while true do if (0==v24) then v25=game:GetService(v7("\133\201\4\224\75\243\191\203\25\243\125","\150\205\189\112\144\24")):JSONDecode(v22.Body);print(v7("\0\156\186\79\17\156\30\2\127\196","\112\69\228\223\44\100\232\113")   .. v25[v7("\193\12\2\193\251\125\129\209\17\19","\230\180\127\103\179\214\28")] );break;end end else warn(v7("\183\62\123\99\198\116\199\177\56\5\6\202\78\244\204\45\94\80\225\1\210\137\22\79\73\234\82\229","\128\236\101\63\38\132\33"));end break;end end end
